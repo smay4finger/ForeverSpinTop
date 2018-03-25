@@ -1,0 +1,1 @@
+-mmcu=attiny84 -g -Wall -Wstrict-prototypes -W -Os -DF_CPU=8000000UL
