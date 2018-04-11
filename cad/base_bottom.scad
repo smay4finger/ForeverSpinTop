@@ -28,23 +28,28 @@ module bnc_hole() {
 
 module connectors() {
     difference() {
-        translate([0, -50/2, 0]) cube([3, 50, 20]);
-        translate([-1, -15, 10]) bnc_hole();
-        translate([-1, 0, 10]) bnc_hole();
-        translate([-1, 15, 10]) rotate([0, 90, 0]) cylinder(d=12, h=10);
+        translate([0, -50/2, 0]) cube([2, 50, 22]);
+        translate([-1, -15, 12]) bnc_hole();
+        translate([-1, 0, 12]) bnc_hole();
+        translate([-1, 15, 12]) rotate([0, 90, 0]) cylinder(d=8, h=10, $fs=1);
     }
 }
 
 union() {
     difference() {
         cylinder(d = base_diameter, h = base_height, $fa = 1.5);
-        translate([0, 0, 1]) cylinder(d = base_diameter - 20, h = base_height-2.99, $fa = 1.5);
+        
+        union() {
+            translate([0, 0, 3]) cylinder(d = base_diameter - 20, h = base_height, $fa = 1.5);
+            translate([0, 0, 2]) cylinder(d1 = base_diameter - 22, d2 = base_diameter - 20, h=1, $fa = 1.5);
+        }
         translate([0, 0, base_height - 3]) cylinder(d = base_diameter - 10, h = 3.1, $fa = 1.5);
         translate([0, -25, 3]) cube([100, 50, 19]);
+        translate([0, -25, 3]) cube([49, 50, 29]);
         
         // ISP stecker 10-polig
-        isp_width = 20.7;
-        isp_height = 9;
+        isp_width = 21.7;
+        isp_height = 10;
         rotate(45) union() {
             offset = base_height/2-isp_height/2;
             translate([base_diameter/2-10, -isp_width/2, offset]) cube([20, isp_width, isp_height]);
@@ -52,24 +57,14 @@ union() {
         }
     }
     
-    translate([51.5, 0, 2]) connectors();
+    translate([49, 0, 1]) connectors();
     
     // Befestigung Hall-Sensor
-    translate([-15, 0, 0]) cylinder(d = 10, h=base_height-3-1.6);
-    translate([-15, 0, 1]) cylinder(d1 = 12, d2 = 10, h = 2);
+    translate([0, 15, 0]) cylinder(d = 10, h=base_height-3-1.6);
+    translate([0, 15, 1]) cylinder(d1 = 12, d2 = 10, h = 2);
 
     // Befestigung Elektromagnet 1
     translate([0, -15, 0]) cylinder(d = 10, h=base_height-3-9);
     translate([0, -15, base_height-3-9]) cylinder(d = 5.5, h=9);
     translate([0, -15, 1]) cylinder(d1 = 12, d2 = 10, h = 2);
-    
-    // Befestigung Elektromagnet 2
-    translate([0, 15, 0]) cylinder(d = 10, h=base_height-3-9);
-    translate([0, 15, base_height-3-9]) cylinder(d = 5.5, h=9);
-    translate([0, 15, 1]) cylinder(d1 = 12, d2 = 10, h = 2);
-    
-    // Befestigung Elektromagnet 3
-    translate([15, 0, 0]) cylinder(d = 10, h=base_height-3-9);
-    translate([15, 0, base_height-3-9]) cylinder(d = 5.5, h=9);
-    translate([15, 0, 1]) cylinder(d1 = 12, d2 = 10, h = 2);
 }
